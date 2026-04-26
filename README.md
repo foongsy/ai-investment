@@ -57,6 +57,31 @@ Do not store credentials, API keys, access tokens, seed phrases, account numbers
 
 Before saving any data into the workspace, the assistant should summarize what will be saved, where it will be saved, and whether it may contain sensitive financial or personal information.
 
+## Minimal Portfolio Schema Plan
+
+The initial portfolio and trading history database will use Neon/Postgres. The first version should stay small and avoid a separate `instruments` table.
+
+The saved proposal is available at `data/portfolio-schema-proposal.md` for later reference before applying changes to Neon.
+
+Recommended starting tables:
+
+- `accounts`: broker or exchange accounts, with a display name, provider, and base currency.
+- `trades`: executed buys and sells, storing `symbol`, `market`, `asset_type`, `side`, `quantity`, `price`, `currency`, fees, taxes, timestamps, source, and external import ID.
+- `cash_movements`: deposits, withdrawals, dividends, interest, fees, taxes, and adjustments, with currency, amount, type, timestamps, source, and optional related trade.
+
+Optional later table:
+
+- `position_snapshots`: periodic position snapshots for reconciliation against broker/API data, including quantity, average cost, market price, and market value.
+
+Implementation notes:
+
+- Use Postgres `numeric` for quantities and money values.
+- Use `timestamptz` for trade and cash movement timestamps.
+- Use `date` for settlement dates.
+- Keep `source` and `external_id` fields for import deduplication.
+- Do not store credentials, account numbers, raw exports, tax documents, or full statements.
+- Make Neon schema changes only after explicit confirmation.
+
 ## Safety
 
 The assistant must not place trades, move money, submit forms, open accounts, close accounts, change beneficiaries, or take irreversible financial actions.

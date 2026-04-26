@@ -44,3 +44,16 @@ This workspace is for personal investment research, planning, and assistant work
 - Before saving data, summarize what will be saved, where it will be saved, and whether it may contain sensitive financial or personal information.
 - Use `data/` only for sanitized examples, schemas, derived summaries, or pointers to approved external sources.
 - Use `.agents/skills/` for project-level Agent Skills that Cursor can discover.
+
+## Portfolio Data Schema Guidance
+
+- The initial portfolio storage target is Neon/Postgres.
+- Keep the first schema minimal: `accounts`, `trades`, and `cash_movements`.
+- Keep `instruments` out of scope initially. Store `symbol`, `market`, `asset_type`, and `currency` directly on trade and snapshot records until the data model needs normalization.
+- Treat `position_snapshots` as optional. Add it when broker/API reconciliation or historical portfolio snapshots become useful.
+- Use `data/portfolio-schema-proposal.md` as the reference proposal for the initial schema.
+- Store quantities and money values as Postgres `numeric`, not floating point types.
+- Store trade timestamps as `timestamptz` and settlement dates as `date`.
+- Include `source` and `external_id` fields where practical to support deduplication when importing from broker CSVs or APIs.
+- Do not store credentials, API keys, account numbers, raw brokerage exports, tax files, or full statements in Neon or this workspace.
+- Do not apply Neon database changes without first summarizing the intended schema changes and receiving explicit user confirmation.
