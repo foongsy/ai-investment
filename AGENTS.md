@@ -33,6 +33,11 @@ This workspace is for personal investment research, planning, and assistant work
 - Do not hardcode secrets in `.cursor/mcp.json`, scripts, data files, or skill files.
 - Avoid enabling tools that can initiate trades, transfers, payments, password resets, or account changes.
 
+## Workspace Parameters
+
+- Neon project name: `ai-investment`.
+- Treat these parameters as convenience hints, not authorization to use external services or make changes without explicit confirmation.
+
 ## Workspace Conventions
 
 - Do not add code, scripts, applications, notebooks, or software project scaffolding by default.
