@@ -1,6 +1,6 @@
 # Personal Investment Assistant Instructions
 
-This workspace is for personal investment research, planning, and assistant workflows. Treat all work here as analysis support, not financial, legal, or tax advice.
+This workspace is for personal investment research, planning, and assistant workflows. It is not a coding workspace. Treat all work here as analysis support, not financial, legal, or tax advice.
 
 ## User Preferences And Scope
 
@@ -35,6 +35,9 @@ This workspace is for personal investment research, planning, and assistant work
 
 ## Workspace Conventions
 
+- Do not add code, scripts, applications, notebooks, or software project scaffolding by default.
+- If the user asks for code and it appears genuinely required, ask for confirmation twice before creating or editing code-related files.
+- For any code-related request, first explain why code is necessary, what files would be created or changed, and whether there is a non-code alternative.
 - Keep workspace contents simple and centralized under `data/` unless the user explicitly approves another structure.
 - Ask for confirmation before changing the workspace structure, including creating new folders, renaming folders, moving files, or introducing new organizational categories.
 - Ask for confirmation before saving any data to the workspace.
