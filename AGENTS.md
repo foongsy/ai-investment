@@ -62,3 +62,33 @@ These are convenience defaults for tools and workflows. They are not authorizati
 - Avoid duplicating table scope, columns, indexes, or type details in configuration sections.
 - Do not store credentials, API keys, account numbers, raw brokerage exports, tax files, or full statements in Neon or this workspace.
 - Do not apply Neon database changes without first summarizing the intended schema changes and receiving explicit user confirmation.
+
+## Cursor Cloud specific instructions
+
+This workspace is not a traditional software project. There is no build step, no linter, no test suite, and no application server to start. The "application" is the Futu OpenAPI Python SDK and its associated skill scripts under `.agents/skills/futuapi/scripts/`.
+
+### Dependencies
+
+Python packages are managed via pip (no `requirements.txt`). The update script installs: `futu-api`, `backtrader`, `matplotlib`, `pandas`, `numpy`. After the update script runs, all SDK imports and skill script compilation should succeed.
+
+### Futu OpenD gateway
+
+All Futu API scripts require the **Futu OpenD GUI** gateway running and logged in at `127.0.0.1:11111`. OpenD is a desktop GUI application that requires a Futu account login; it **cannot run headlessly** in a Cloud Agent VM. Scripts that call `common.py`'s `ensure_futu_api()` will exit with an error if OpenD is not reachable.
+
+To verify the SDK is installed correctly without OpenD, use a direct import test:
+
+```bash
+python3 -c "from futu import *; print('SDK OK, version:', __import__('futu').__version__)"
+```
+
+### Running skill scripts
+
+Skill scripts live at `.agents/skills/futuapi/scripts/{category}/{script}.py`. They import `common.py` from the same `scripts/` directory, so run them from the workspace root:
+
+```bash
+python3 .agents/skills/futuapi/scripts/quote/get_snapshot.py US.AAPL --json
+```
+
+### Neon MCP
+
+The Neon MCP server is configured at the IDE level but `.cursor/mcp.json` is empty. Neon access requires authentication in the Cursor desktop IDE first.
