@@ -6,7 +6,6 @@ Refresh your working understanding of this workspace in read-only mode.
 
 1. Read the main workspace guidance:
    - `AGENTS.md`
-   - `README.md`
 
 2. Refresh `data/` context:
    - List files under `data/`.
