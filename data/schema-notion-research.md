@@ -1,6 +1,6 @@
 # Notion Research Database Schema v1
 
-Snapshot date: 2026-05-02
+Snapshot date: 2026-05-03
 
 This document defines the database schema needed to reconstruct the Notion research system without copying any data. It includes database names, property names, property types, select options, relation setup, and rollup setup only.
 
@@ -9,6 +9,7 @@ This document defines the database schema needed to reconstruct the Notion resea
 - Databases covered:
   - Research Ideas
   - Research Runs
+  - Trading Proposals
 - Excluded:
   - Page IDs, database IDs, data source IDs, property IDs, URLs, commands, prompts, raw rows, and workspace-specific artifacts.
 
@@ -62,6 +63,58 @@ Purpose: execution log and audit trail for research runs. Each row represents on
   - Related property: `Idea ID`
   - Function: `show_original`
 
+## Trading Proposals
+
+Purpose: structured, reviewable trade hypotheses derived from research outputs. Each row represents a proposal or watchlist candidate for further user review, not an execution instruction.
+
+| Property | Type | Notes |
+| --- | --- | --- |
+| `Proposal` | title | Human-readable proposal title, typically combining ticker, trade type, and research context. |
+| `Ticker` | rich_text | Tradable symbol or instrument identifier. |
+| `Company Name` | rich_text | Company, ETF, asset, or instrument name. |
+| `Asset Class` | select | Current options: `equity`, `etf`, `bond`, `future`, `option`, `crypto`, `other`. |
+| `Market` | select | Market scope. Current options: `HK`, `JP`, `US`, `OTHER`. |
+| `Exchange` | rich_text | Trading venue or exchange. |
+| `Currency` | rich_text | Trading or quote currency. |
+| `Relationship To Research` | rich_text | Free-text explanation of how the proposal links to the source thesis. |
+| `Trade Type` | select | Current options: `long`, `short`, `other`. |
+| `Other Trade Type` | rich_text | Optional clarification when `Trade Type` is `other`, such as watchlist, hedge, or no-trade. |
+| `Time Horizon` | select | Current options: `near_term`, `medium_term`, `long_term`, `event_driven`, `unspecified`. |
+| `Rationale` | rich_text | Concise research hypothesis and reasoning. |
+| `Entry Criteria` | rich_text | Observable criteria that would justify further review. Not position sizing or trade execution instructions. |
+| `Exit Criteria` | rich_text | Observable criteria for closing, downgrading, or abandoning the proposal. |
+| `Key Invalidation Event` | rich_text | Main event or evidence that would break the thesis. |
+| `Conviction Level` | select | Current options: `low`, `medium`, `high`. |
+| `Conviction Score` | number | Optional 0-1 score when available. |
+| `Conviction Note` | rich_text | Explanation of conviction and uncertainty. |
+| `Risk Bucket` | select | Current options: `fundamental`, `event_driven`, `macro_sensitive`, `policy_sensitive`, `supply_chain`, `other`. |
+| `Assumptions` | rich_text | Key assumptions behind the proposal. |
+| `Open Questions` | rich_text | Follow-up questions for diligence. |
+| `Monitoring Signals` | rich_text | Signals to monitor for thesis validation or deterioration. |
+| `Status` | select | Review state. Current options: `Proposed`, `Reviewing`, `Accepted`, `Rejected`, `Archived`. |
+| `Proposed At` | date | Timestamp when the proposal was created or imported. |
+| `Run` | relation | Relation to Research Runs. Each proposal should link to the run that generated it. |
+| `Idea` | relation | Relation to Research Ideas. Each proposal should link to the source idea. |
+| `Schema Version` | rich_text | Optional schema version from the structured output payload. |
+| `Previous Interaction ID` | rich_text | Prior provider interaction ID used for follow-up context, when applicable. |
+| `Core Thesis` | rich_text | Source thesis summary. |
+| `Key Drivers` | rich_text | Source thesis drivers. |
+| `Key Risks` | rich_text | Source thesis risks. |
+| `Thesis Kill Criteria` | rich_text | Source thesis invalidation criteria. |
+| `Fact Assumption Boundary` | select | Current options: `clear`, `mixed`, `weak`. |
+| `Missing Information` | rich_text | Material missing inputs or evidence gaps. |
+| `Uncertainty Notes` | rich_text | Output-level uncertainty notes. |
+| `Review Notes` | rich_text | User or workflow notes during review. |
+
+### Trading Proposals Relations
+
+- `Trading Proposals.Run`
+  - Type: relation
+  - Target: Research Runs
+- `Trading Proposals.Idea`
+  - Type: relation
+  - Target: Research Ideas
+
 ## Reconstruction Order
 
 1. Create a database named `Research Ideas`.
@@ -74,4 +127,8 @@ Purpose: execution log and audit trail for research runs. Each row represents on
    - Relation property: `Idea`
    - Related property: `Idea ID`
    - Function: `show_original`
+8. Create a database named `Trading Proposals`.
+9. Add the non-relation `Trading Proposals` properties listed above.
+10. Add `Trading Proposals.Run` as a relation to `Research Runs`.
+11. Add `Trading Proposals.Idea` as a relation to `Research Ideas`.
 

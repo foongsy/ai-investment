@@ -68,10 +68,11 @@ For recurring opportunity scans, `Research Ideas` should use:
 - Prefer relevant project skills first when available.
 - Default execution priority: CLI tools -> direct API calls via `curl` -> MCP tools (fallback, or when explicitly requested).
 - For Notion operations, prefer Notion REST API via `curl`.
+- For Alpha Vantage market data lookups, prefer the `alphavantage-curl` skill and direct `curl` requests, especially for global indices plus Japan and US market data.
 - For deep research operations, prefer `parallel-cli`.
-- Skills: `notion-api`, `parallel-deep-research`
+- Skills: `alphavantage-curl`, `notion-api`, `parallel-deep-research`, `expand-new-ideas`, `run-expanded-ideas-deep-research`, `poll-deep-research-runs`, `followup-tradable-tickers`, `refresh-workspace`
 - CLI: `parallel-cli`, `git`, `npx skills`
-- Direct API via `curl`: Notion API, AlphaVantage API
+- Direct API via `curl`: Notion API, Alpha Vantage API
 - MCP tools are secondary by default in this workspace.
 - This workspace may run in local or cloud agents; prefer non-interactive authentication.
 - Always check environment variables first, then `.env` (without exposing secret values) when a tool supports API key/token auth.
@@ -121,6 +122,12 @@ For recurring opportunity scans, `Research Ideas` should use:
 
 ### Skill Purpose In This Workspace (High Level)
 
+- `alphavantage-curl`: use for Alpha Vantage Core Stock API and Index Data API lookups with `curl`, especially for global indices, Japan market data, and US market data, including stock time series, latest quotes, symbol search, and listing status.
 - `notion-api`: use for building and maintaining the Notion research operating system (database structure, operational fields, and workflow documentation pages).
 - `parallel-deep-research`: use for deep thematic research runs (primarily weekend research mode), including run tracking and summary capture.
+- `expand-new-ideas`: use to transform eligible Notion `Research Ideas` from raw `Original Idea` entries into research-ready `Research Input` before execution.
+- `run-expanded-ideas-deep-research`: use to kick off Parallel deep research for eligible expanded ideas and prepare run metadata logging.
+- `poll-deep-research-runs`: use to poll in-flight Parallel research runs and update Notion with completion status, summaries, and result pointers.
+- `followup-tradable-tickers`: use to run a follow-up from a prior Parallel interaction, validate tradable ticker JSON, and prepare/import linked trading proposals after confirmation.
+- `refresh-workspace`: use to refresh workspace rules, data context, skill inventory, local configuration, and git state in read-only mode.
 - Use this section for workspace intent only; follow each skill's own documentation for execution details and API/CLI specifics.
