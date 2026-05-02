@@ -54,6 +54,32 @@ These are convenience defaults for tools and workflows. They are not authorizati
 - Before saving data, summarize what will be saved, where it will be saved, and whether it may contain sensitive financial or personal information.
 - Use `data/` only for sanitized examples, schemas, derived summaries, or pointers to approved external sources.
 - Use `.agents/skills/` for project-level Agent Skills that Cursor can discover.
+- Skills are allowed to evolve during a session; users can install or remove them with `npx skills` without restarting the workspace.
+
+## Agent Skills Policy
+
+This workspace may include a default set of project skills under `.agents/skills/`.
+
+Users may add, remove, and list skills at any time using `npx skills` in this workspace. Treat skill changes as user-controlled and dynamic (not fixed at startup).
+
+### Manage Skills (Project Scope)
+
+- List installed project skills: `npx skills list`
+- Add a skill package: `npx skills add <source>`
+- Remove a skill: `npx skills remove <skill-name>`
+- Preview available skills in a source: `npx skills add <source> --list`
+
+Examples:
+
+- `npx skills add vercel-labs/agent-skills`
+- `npx skills remove my-skill`
+- `npx skills list --json`
+
+### Safety and Confirmation
+
+- Before using a newly added skill that may access external services or private data, explain scope and ask for explicit confirmation.
+- Prefer project scope (default) over global scope for reproducibility.
+- Do not assume globally installed skills are available in this workspace.
 
 ## Portfolio Data Schema Guidance
 

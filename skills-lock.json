@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "notion-api": {
+      "source": "intellectronica/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/notion-api/SKILL.md",
+      "computedHash": "aa73210fcc5a4f075f53983d5d7ddfeb1fe46fa789998bf265b86cad6ec14d2e"
+    },
+    "parallel-deep-research": {
+      "source": "parallel-web/parallel-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/parallel-deep-research/SKILL.md",
+      "computedHash": "ad05532ff0d92fed7ec3aa99a99b9f9d3523282b627c0a256497d4de64b0c8e3"
+    }
+  }
+}
