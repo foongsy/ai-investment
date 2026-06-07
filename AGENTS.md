@@ -150,3 +150,39 @@ For recurring opportunity scans, `Research Ideas` should use:
 - `run-portfolio-analysis`: use to run Layer 3 portfolio planning (unified rank + swap optimizer) from Notion snapshot, policy, and eligible Trading Proposals; JSON dry-run by default, `--write` for Notion Layer 3 outputs.
 - `refresh-workspace`: use to refresh workspace rules, data context, skill inventory, local configuration, and git state in read-only mode.
 - Use this section for workspace intent only; follow each skill's own documentation for execution details and API/CLI specifics.
+
+## Cursor Cloud specific instructions
+
+This workspace is an **agent-orchestrated integration layer**, not a deployable application. There is no `npm run dev`, Docker stack, project-wide linter, or always-on server. "Running the app" means invoking Agent Skills via Cursor (or their `run.sh` / `curl` steps) against configured external APIs.
+
+### Runtime and dependencies
+
+- **Required system tools:** `curl`, `jq`, `python3` (3.9+), `git`, `npx` (for `npx skills list` and `ajv-cli` in follow-up workflows).
+- **Python venv:** Portfolio skills auto-create skill-local `.venv/` on first `run.sh` invocation. If venv creation fails with `ensurepip` errors, install `python3-venv` once on the VM (`apt install python3-venv`).
+- **Auth:** Cloud Agents receive API keys via environment variables (`NOTION_API_TOKEN`, `ALPHAVANTAGE_API_KEY`, `PARALLEL_API_KEY`, etc.). A local `.env` is optional; scripts fall back to repo-root `.env` when env vars are unset.
+- **Optional CLIs:** `parallel-cli` (Parallel research polling) and `fastio` (`npm install -g @vividengine/fastio-cli`). Skills work without them via direct `curl`.
+
+### Smoke tests (no Notion writes)
+
+```bash
+# Portfolio planner unit tests (no API keys)
+PYTHONPATH=".agents/skills/evaluate-portfolio-guardrails/scripts:.agents/skills/run-portfolio-analysis/scripts" \
+  python3 .agents/skills/run-portfolio-analysis/tests/test_planner.py -v
+
+# Bootstrap portfolio skill venvs (idempotent)
+.agents/skills/evaluate-portfolio-guardrails/scripts/run.sh --help >/dev/null
+.agents/skills/run-portfolio-analysis/scripts/run.sh --help >/dev/null
+```
+
+### Notion integration scope
+
+The Notion bot must be **shared with each database** the skill needs. Portfolio skills (`evaluate-portfolio-guardrails`, `run-portfolio-analysis`) search for `Portfolio Snapshot`, `Portfolio Holdings`, and `Portfolio Policy`. If those data sources are not shared with the integration, those skills exit with `Could not find Notion data source` even when `NOTION_API_TOKEN` is valid. Research-track databases (`Research Ideas`, `Research Runs`, `Trading Proposals`) are the usual minimum for research and Layer 2 quote workflows.
+
+### Portfolio skills (read-only by default)
+
+```bash
+.agents/skills/evaluate-portfolio-guardrails/scripts/run.sh --out /tmp/metrics.json
+.agents/skills/run-portfolio-analysis/scripts/run.sh --out /tmp/plan.json   # JSON dry-run; --write for Notion
+```
+
+No local services need to be started. Layer 2 Pine Screener CSV import requires manual TradingView desktop export unless the user uploads `screener*.csv` to Fast.io.
