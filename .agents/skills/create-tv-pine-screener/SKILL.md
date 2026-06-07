@@ -14,7 +14,7 @@ Canonical schema: `data/notion/research.md` (Trading Proposals → Layer 2 — P
 
 - **In scope:** Pine Script files under `data/tradingview/*.pine`, Pine Screener plot design, long/short price math, RR derivation rules, watchlist screening workflow.
 - **Out of scope:** Notion writes (confirm separately), automated order placement, portfolio sizing.
-- **Related skills:** `export-tv-watchlist` (watchlist export + per-run Fast.io session), `fastio-cli` (`screener*.csv` upload to the same run session), `import-screener-pricing` (screener CSV → Notion Layer 2), `refresh-proposal-quotes` (Alpha Vantage `Last Price` only).
+- **Related skills:** `export-tv-watchlist` (watchlist export + per-run Fast.io session), `fastio-cli` (`pinescreener*.csv` upload to the same run session), `import-screener-pricing` (screener CSV → Notion Layer 2), `refresh-proposal-quotes` (Alpha Vantage `Last Price` only).
 
 ## Before Writing
 
@@ -149,7 +149,7 @@ End-to-end watchlist flow:
 1. `export-tv-watchlist` → local `YYYY-MM-DD-<run_id>.txt` + Fast.io `trading-proposals/sessions/<YYYY-MM-DD>-<run_id>/watchlist.txt`
 2. Import watchlist into TradingView
 3. Run Pine Screener with this indicator on `1D`
-4. Upload any `screener*.csv` to the same Fast.io run session folder (filename must start with `screener`; script name not required)
+4. Upload any `pinescreener*.csv` to the same Fast.io run session folder (filename must start with `pinescreener`; script name not required)
 5. Run `import-screener-pricing` for the same `run_id` (defaults to `Setup Active = 1`)
 
 ## Skeleton

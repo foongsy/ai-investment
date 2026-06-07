@@ -86,7 +86,7 @@ Handoffs:
 
 1. Research follow-up imports Layer 1 fields.
 2. Alpha Vantage last close populates `Last Price` and `Quote As Of`.
-3. Pine Screener CSV import via `import-screener-pricing` populates `Entry Price`, `Stop Price`, `Target Price`, and derived `Reward Risk Ratio`, then sets `Pricing Status = Ready` for rows where `Pricing Status` is not already `Ready`.
+3. Pine Screener CSV import via `import-screener-pricing` populates `Entry Price`, `Stop Price`, `Target Price`, and derived `Reward Risk Ratio`, then sets `Pricing Status = Ready` for rows where `Pricing Status` is not already `Ready`. Fast.io session files must be named `pinescreener*.csv`.
 
 Layer 2 stores **single** entry, stop, target prices, and one reward/risk ratio. Portfolio sizing and execution history are defined separately.
 
@@ -239,7 +239,7 @@ Keep human decision workflow (`Status`) separate from Layer 2 readiness (`Pricin
 | Field group | Source | Tool / process |
 | --- | --- | --- |
 | `Last Price`, `Quote As Of` | Alpha Vantage last close | `alphavantage-curl` skill |
-| `Entry Price`, `Stop Price`, `Target Price`, `Reward Risk Ratio`, `Pricing Notes` | Pine Screener CSV via Fast.io | `import-screener-pricing` skill; derives ratio from prices; sets `Pricing Status = Ready` when current status is not `Ready` |
+| `Entry Price`, `Stop Price`, `Target Price`, `Reward Risk Ratio`, `Pricing Notes` | Pine Screener CSV via Fast.io (`pinescreener*.csv` in run session) | `import-screener-pricing` skill; derives ratio from prices; sets `Pricing Status = Ready` when current status is not `Ready` |
 
 Layer 2 is **not** imported from `data/parallel/output-tradable-tickers.json`.
 

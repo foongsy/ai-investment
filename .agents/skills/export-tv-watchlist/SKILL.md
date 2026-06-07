@@ -235,7 +235,7 @@ fastio upload file --workspace "$WS_ID" \
 }
 ```
 
-   - When updating an existing manifest, preserve any existing `files.screeners` entries (filenames starting with `screener-` and ending in `.csv`).
+   - When updating an existing manifest, preserve any existing `files.screeners` entries (filenames matching `pinescreener*.csv`).
    - If `--dry-run`, report planned `SESSION_PATH`, upload targets, and manifest payload only; do not call Fast.io.
 
 10. Final report:
@@ -252,7 +252,7 @@ fastio upload file --workspace "$WS_ID" \
      - page ID
    - list of `TV_ID` values written (or that would be written)
    - reminder: import `watchlist.txt` in TradingView via watchlist → Upload list (use the local file or download from Fast.io)
-   - reminder: after Pine Screener, upload any `screener*.csv` to the same Fast.io session folder
+   - reminder: after Pine Screener, upload any `pinescreener*.csv` to the same Fast.io session folder
    - reminder: unresolved rows need manual TV symbol review before re-export
 
 ## Example Invocations

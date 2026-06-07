@@ -155,7 +155,7 @@ Project skills live under `.agents/skills/`. Prefer skills and CLI tools over MC
 | `export-tv-watchlist` | Export watchlist locally and provision per-run Fast.io session with `watchlist.txt` |
 | `create-tv-pine-screener` | Author Pine Screener scripts for Layer 2 price fields |
 | `import-screener-pricing` | Import screener CSV Layer 2 fields from Fast.io into Notion |
-| `fastio-cli` | Fast.io file ops; per-run sessions store `watchlist.txt` and `screener*.csv` |
+| `fastio-cli` | Fast.io file ops; per-run sessions store `watchlist.txt` and `pinescreener*.csv` |
 | `refresh-proposal-quotes` | Refresh `Last Price` and `Quote As Of` on `Trading Proposals` |
 | `refresh-workspace` | Read-only workspace context refresh |
 

@@ -19,8 +19,8 @@ This is price-plan support only. Do not present imported prices as personalized 
 - Fast.io session lookup: after `RUN_ID` is resolved, list `trading-proposals/sessions/` and match folders whose names end with `-<RUN_ID>` (format `<YYYY-MM-DD>-<RUN_ID>`)
 - Multiple session folders for the same `RUN_ID`: use the folder with the **latest** `YYYY-MM-DD` date prefix (lexicographic compare); ignore all earlier dated folders
 - Optional override: when `--date <YYYY-MM-DD>` is supplied, use the exact folder `<YYYY-MM-DD>-<RUN_ID>` instead of latest-date selection
-- Selected session must contain at least one `screener*.csv`; if not, **stop** and report the chosen session path. Do not fall back to earlier dated folders
-- Screener file glob: all files in the selected session folder whose names match `screener*.csv` (case-sensitive), including `screener-*.csv` and `screener_*.csv`
+- Selected session must contain at least one `pinescreener*.csv`; if not, **stop** and report the chosen session path. Do not fall back to earlier dated folders
+- Screener file glob: all files in the selected session folder whose names match `pinescreener*.csv` (case-sensitive), including `pinescreener-*.csv` and `pinescreener_*.csv`
 - Screener discovery: **folder list is authoritative**; `manifest.json` `files.screeners` is optional metadata only
 - Import gate: update rows where `Pricing Status` is **not** `Ready` (includes `Not Started`, `Pending`, `Failed`, `Stale`)
 - Screener row filter: include only rows where `Setup Active = 1` unless `--include-inactive`
@@ -42,7 +42,7 @@ Provide at least one session selector:
 Optional modifiers:
 
 - `--date <YYYY-MM-DD>` — use the exact session folder `<YYYY-MM-DD>-<RUN_ID>` instead of latest-date selection among folders for the same `RUN_ID`
-- `--screener-file <filename>` — process one named screener CSV in the session folder instead of all `screener*.csv` files
+- `--screener-file <filename>` — process one named screener CSV in the session folder instead of all `pinescreener*.csv` files
 - `--include-inactive` — include screener rows even when `Setup Active != 1`
 - `--dry-run` — download, parse, join, validate, and preview only; never write Notion or Fast.io
 - `--confirm` — show the preview and wait for explicit user confirmation before writing Notion (default is write without asking)
@@ -120,12 +120,12 @@ Deprecated (no longer required; default already writes):
    - Set `SESSION_ID` to the selected folder name and `SESSION_DATE` to its parsed date prefix.
    - List the selected session folder contents.
    - Collect screener files:
-     - default: every file with name matching `screener*.csv`
+     - default: every file with name matching `pinescreener*.csv`
      - with `--screener-file`: exactly that filename if present
    - If no screener files match in the **selected** session folder:
      - stop and report the selected `SESSION_ID`
      - report any ignored earlier session folders for the same `RUN_ID`
-     - optionally note (informational only) if an ignored folder contains `screener*.csv`; do **not** import from it
+     - optionally note (informational only) if an ignored folder contains `pinescreener*.csv`; do **not** import from it
    - Sort screener filenames ascending for deterministic processing order.
    - Download each screener CSV to a temp/local path.
    - Optionally download `manifest.json` for reporting; do not require it for discovery.
@@ -304,7 +304,7 @@ import-screener-pricing --run-id trun_abc123 --confirm
 Import one screener file:
 
 ```text
-import-screener-pricing --run-id trun_abc123 --screener-file screener_Supertrend_EMA_ATR_Long_Plan_2026-06-06.csv
+import-screener-pricing --run-id trun_abc123 --screener-file pinescreener_Supertrend_EMA_ATR_Long_Plan_2026-06-06.csv
 ```
 
 Include inactive screener rows (preview):
