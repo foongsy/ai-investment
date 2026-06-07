@@ -428,9 +428,10 @@ def ensure_folder(
     existing = folder_id_by_name(api_key, workspace_id, parent_id, name)
     if existing:
         return existing
-    args = ["files", "create-folder", "--workspace", workspace_id, name]
+    args = ["files", "create-folder", "--workspace", workspace_id]
     if parent_id:
-        args[3:3] = ["--parent", parent_id]
+        args += ["--parent", parent_id]
+    args.append(name)
     data = fastio_cmd(api_key, *args)
     folder_id = data.get("id") or data.get("folder_id")
     if not folder_id:
