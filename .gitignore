@@ -27,6 +27,7 @@ banking/
 *k-1*
 *export*
 !.agents/skills/export-tv-watchlist/
+!.agents/skills/export-tv-watchlist/**
 
 # TradingView per-run watchlist exports (local only; Pine scripts stay tracked)
 data/tradingview/*.txt
